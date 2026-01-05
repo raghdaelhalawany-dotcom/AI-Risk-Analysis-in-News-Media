@@ -225,13 +225,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - R community and tidyverse developers
 - AI safety research community for theoretical frameworks
 
-## 📊 Project Stats
-
-![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/ai-risk-analysis?style=flat-square)
-![GitHub repo size](https://img.shields.io/github/repo-size/yourusername/ai-risk-analysis?style=flat-square)
-![GitHub language count](https://img.shields.io/github/languages/count/yourusername/ai-risk-analysis?style=flat-square)
-
----
+For Project stats, please get in touch 
 
 ⭐ **Star this repository** if you find it helpful!
 
