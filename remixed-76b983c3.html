@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Risk Analysis: NYT Coverage Study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .author-info img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #667eea;
+        }
+        
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .tech-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tech-item strong {
+            display: block;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .methodology-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .flow-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            position: relative;
+        }
+        
+        .flow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #667eea;
+        }
+        
+        .key-findings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .finding-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 4px solid #667eea;
+        }
+        
+        .finding-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #764ba2;
+            display: block;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .visualization-placeholder {
+            background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+            border: 2px dashed #667eea;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: #666;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: white;
+            color: #667eea;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .risk-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .risk-category {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            border-left: 3px solid #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .methodology-flow {
+                flex-direction: column;
+            }
+            
+            .flow-step:not(:last-child)::after {
+                content: '↓';
+                right: auto;
+                top: auto;
+                bottom: -25px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 AI Risk Analysis in News Media</h1>
+            <p class="subtitle">A Computational Analysis of AI Risk Coverage in The New York Times</p>
+            
+            <div class="author-info">
+                <div>
+                    <strong style="font-size: 1.1em;">Raghda Bassam</strong>
+                    <p style="color: #666; margin-top: 5px;">Data Scientist | NLP Researcher | AI Risk Analysis</p>
+                </div>
+            </div>
+            
+            <div class="tags">
+                <span class="tag">Natural Language Processing</span>
+                <span class="tag">Machine Learning</span>
+                <span class="tag">LLM Classification</span>
+                <span class="tag">Sentiment Analysis</span>
+                <span class="tag">Network Analysis</span>
+                <span class="tag">Data Visualization</span>
+            </div>
+        </header>
+
+        <div class="section">
+            <h2>📊 Project Overview</h2>
+            <p>This project analyzes how artificial intelligence risks are portrayed in mainstream media, using The New York Times as a case study. By combining advanced NLP techniques, LLM-based classification, and temporal analysis, I mapped the evolution and framing of AI risk narratives from 2012 to 2024.</p>
+            
+            <div class="highlight-box">
+                <strong style="color: #667eea; font-size: 1.1em;">Research Question:</strong>
+                <p style="margin-top: 10px;">How has media coverage of AI risks evolved over time, and what patterns emerge in the framing of different risk categories?</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Key Findings</h2>
+            
+            <div class="key-findings">
+                <div class="finding-card">
+                    <h4>📈 Coverage Growth</h4>
+                    <span class="stat-number">450%</span>
+                    <p>Increase in AI risk coverage since 2020</p>
+                </div>
+                
+                <div class="finding-card">
+                    <h4>🔍 Risk Categories</h4>
+                    <span class="stat-number">20</span>
+                    <p>Distinct AI risk categories identified and classified</p>
+                </div>
+                
+                <div class="finding-card">
+                    <h4>🎭 Narrative Shift</h4>
+                    <span class="stat-number">2022</span>
+                    <p>Major pivot from sci-fi scenarios to practical governance concerns</p>
+                </div>
+                
+                <div class="finding-card">
+                    <h4>💭 Sentiment</h4>
+                    <span class="stat-number">-0.15</span>
+                    <p>Average sentiment score indicating cautious/concerned framing</p>
+                </div>
+            </div>
+
+            <h3>Major Insights</h3>
+            <ul>
+                <li><strong>Societal & Economic Risks</strong> dominate the conversation, appearing in 40% of AI-related articles</li>
+                <li><strong>Governance & Regulatory concerns</strong> showed the fastest growth rate post-ChatGPT launch</li>
+                <li><strong>Existential risk narratives</strong> decreased in relative frequency after 2023, replaced by immediate practical concerns</li>
+                <li><strong>Network analysis</strong> revealed strong co-occurrence between privacy, discrimination, and governance issues</li>
+                <li><strong>Sentiment volatility</strong> highest for safety and technical failure categories, indicating ongoing debate</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>⚙️ Technical Methodology</h2>
+            
+            <div class="methodology-flow">
+                <div class="flow-step">
+                    <strong>Data Collection</strong>
+                    <p>NYT Articles Database</p>
+                </div>
+                <div class="flow-step">
+                    <strong>NLP Pipeline</strong>
+                    <p>Cleaning & Lemmatization</p>
+                </div>
+                <div class="flow-step">
+                    <strong>AI Filtering</strong>
+                    <p>Pattern Matching</p>
+                </div>
+                <div class="flow-step">
+                    <strong>LLM Classification</strong>
+                    <p>Ollama Analysis</p>
+                </div>
+                <div class="flow-step">
+                    <strong>Analysis</strong>
+                    <p>Temporal & Network</p>
+                </div>
+            </div>
+
+            <h3>1. Data Preprocessing & AI Content Detection</h3>
+            <p>Built a comprehensive pattern-matching system to identify AI-related content across multiple dimensions:</p>
+            
+            <div class="code-block">
+ai_pattern <- regex(
+    paste(
+        "\\bai\\b", "artificial intelligence", "machine learning",
+        "neural network", "deep learning", "algorithm",
+        "large language model", "\\bllm\\b", "generative ai",
+        "chatgpt", "claude", "gemini", "bard",
+        "openai", "anthropic", "google deepmind",
+        "sam altman", "geoffrey hinton", "dario amodei",
+        sep = "|"
+    ), 
+    ignore_case = TRUE
+)
+            </div>
+
+            <p>Applied text preprocessing including:</p>
+            <ul>
+                <li>Lowercasing and punctuation removal</li>
+                <li>Text squishing (whitespace normalization)</li>
+                <li>Lemmatization using <code>textstem</code> library</li>
+                <li>Pattern-based filtering for AI-relevant content</li>
+            </ul>
+
+            <h3>2. LLM-Based Risk Classification</h3>
+            <p>Developed a custom classification system using Ollama (local LLM) to categorize articles into 20 distinct risk categories:</p>
+            
+            <div class="risk-categories">
+                <div class="risk-category">1. Societal & Economic</div>
+                <div class="risk-category">2. Governance & Regulatory</div>
+                <div class="risk-category">3. Discrimination & Fairness</div>
+                <div class="risk-category">4. Safety & Technical Failure</div>
+                <div class="risk-category">5. Malicious Use & Security</div>
+                <div class="risk-category">6. Long-term / Existential</div>
+                <div class="risk-category">7. Environmental Risks</div>
+                <div class="risk-category">8. Copyright & IP</div>
+                <div class="risk-category">9. Human-AI Interaction</div>
+                <div class="risk-category">10. Data Privacy</div>
+                <div class="risk-category">11. Transparency & Audit</div>
+                <div class="risk-category">12. Accountability & Liability</div>
+                <div class="risk-category">13. Competition & Monopoly</div>
+                <div class="risk-category">14. Dataset Quality</div>
+                <div class="risk-category">15. Content Authenticity</div>
+                <div class="risk-category">16. Children & Vulnerable</div>
+                <div class="risk-category">17. Healthcare & Biosafety</div>
+                <div class="risk-category">18. Financial Fraud</div>
+                <div class="risk-category">19. Compute & Supply Chain</div>
+                <div class="risk-category">20. None / General News</div>
+            </div>
+
+            <h3>3. Multi-Dimensional Analysis</h3>
+            <p>Implemented several analytical approaches to uncover patterns:</p>
+            
+            <ul>
+                <li><strong>Frequency Analysis:</strong> Identified most discussed risk categories</li>
+                <li><strong>Sentiment Analysis:</strong> Measured emotional tone and controversy levels</li>
+                <li><strong>Temporal Analysis:</strong> Tracked risk velocity and narrative acceleration</li>
+                <li><strong>Network Analysis:</strong> Mapped co-occurrence patterns between risk categories</li>
+                <li><strong>Domain Clustering:</strong> Grouped risks into theoretical frameworks</li>
+            </ul>
+
+            <h3>4. Theoretical Framework</h3>
+            <p>Developed a risk domain taxonomy grouping 20 categories into 6 meta-domains:</p>
+            
+            <div class="highlight-box">
+                <strong>Risk Domain Hierarchy:</strong>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Societal & Economic Risks</strong> - Job displacement, inequality, economic disruption</li>
+                    <li><strong>Governance & Regulatory Risks</strong> - Policy gaps, accountability, liability</li>
+                    <li><strong>Discrimination, Fairness & Social Harms</strong> - Bias, privacy, vulnerable populations</li>
+                    <li><strong>Safety, Reliability & Technical Failure</strong> - System errors, dataset quality, healthcare risks</li>
+                    <li><strong>Malicious Use & Security Threats</strong> - Cybersecurity, copyright infringement</li>
+                    <li><strong>Long-term / Transformative Risks</strong> - Existential concerns, AGI scenarios</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ Technology Stack</h2>
+            
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <strong>Language</strong>
+                    R (tidyverse ecosystem)
+                </div>
+                <div class="tech-item">
+                    <strong>NLP Libraries</strong>
+                    textstem, stringr
+                </div>
+                <div class="tech-item">
+                    <strong>LLM Framework</strong>
+                    Ollama (local inference)
+                </div>
+                <div class="tech-item">
+                    <strong>Visualization</strong>
+                    ggplot2, ggraph, igraph
+                </div>
+                <div class="tech-item">
+                    <strong>Time Series</strong>
+                    lubridate, zoo
+                </div>
+                <div class="tech-item">
+                    <strong>API Integration</strong>
+                    httr2, jsonlite
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Analysis Components</h2>
+            
+            <h3>Temporal Velocity Analysis</h3>
+            <div class="visualization-placeholder">
+                <strong>Risk Velocity Chart</strong>
+                <p>Tracked month-over-month changes in risk category mentions to identify narrative acceleration patterns</p>
+                <p style="margin-top: 10px; font-style: italic;">Formula: velocity = n - lag(n) with 3-month rolling average smoothing</p>
+            </div>
+
+            <h3>Sentiment Distribution & Controversy Mapping</h3>
+            <div class="visualization-placeholder">
+                <strong>Argumentation Style Map</strong>
+                <p>2D scatter plot mapping sentiment (positive/negative) against volatility (controversy level)</p>
+                <p style="margin-top: 10px;">Bubble size represents article volume per risk domain</p>
+            </div>
+
+            <h3>Network Co-occurrence Analysis</h3>
+            <div class="visualization-placeholder">
+                <strong>Risk Constellation Graph</strong>
+                <p>Force-directed network graph showing which risk categories frequently appear together</p>
+                <p style="margin-top: 10px;">Edge weight threshold: 5+ co-occurrences</p>
+            </div>
+
+            <h3>Narrative Battle Analysis</h3>
+            <div class="visualization-placeholder">
+                <strong>Sci-Fi vs. Reality: The Narrative Flip</strong>
+                <p>Time series comparing existential/doomsday narratives vs. governance/regulation narratives</p>
+                <p style="margin-top: 10px;">Reveals the 2022-2023 shift from speculative to practical concerns</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 Technical Highlights</h2>
+            
+            <div class="highlight-box">
+                <h4 style="color: #667eea; margin-bottom: 10px;">Advanced Data Engineering</h4>
+                <ul>
+                    <li>Processed and classified thousands of news articles using local LLM inference</li>
+                    <li>Implemented efficient train/test split (90/10) for validation</li>
+                    <li>Built reusable data pipeline with modular preprocessing steps</li>
+                    <li>Created comprehensive prompt engineering system for classification accuracy</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4 style="color: #667eea; margin-bottom: 10px;">Statistical Rigor</h4>
+                <ul>
+                    <li>Multi-dimensional analysis: frequency, sentiment, temporal, network</li>
+                    <li>Rolling average smoothing for velocity calculations</li>
+                    <li>Co-occurrence matrix generation for network analysis</li>
+                    <li>Domain-level aggregation and meta-analysis</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4 style="color: #667eea; margin-bottom: 10px;">Production-Ready Code</h4>
+                <ul>
+                    <li>Modular architecture with clear separation of concerns</li>
+                    <li>Comprehensive data validation and error handling</li>
+                    <li>Reproducible research with seed setting and version control</li>
+                    <li>Well-documented code with clear variable naming</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎓 Skills Demonstrated</h2>
+            
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <strong>NLP & Text Mining</strong>
+                    Pattern matching, lemmatization, text preprocessing
+                </div>
+                <div class="tech-item">
+                    <strong>Machine Learning</strong>
+                    LLM integration, classification, model evaluation
+                </div>
+                <div class="tech-item">
+                    <strong>Data Science</strong>
+                    Statistical analysis, hypothesis testing, data wrangling
+                </div>
+                <div class="tech-item">
+                    <strong>Visualization</strong>
+                    Multi-variate plotting, network graphs, time series
+                </div>
+                <div class="tech-item">
+                    <strong>Research Design</strong>
+                    Theoretical framework development, systematic analysis
+                </div>
+                <div class="tech-item">
+                    <strong>Software Engineering</strong>
+                    API integration, pipeline architecture, reproducibility
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔮 Future Directions</h2>
+            <ul>
+                <li><strong>Cross-Publication Analysis:</strong> Compare NYT coverage with tech-focused and international outlets</li>
+                <li><strong>Predictive Modeling:</strong> Build models to forecast emerging risk narratives</li>
+                <li><strong>Topic Modeling:</strong> Apply LDA/BERTopic for unsupervised theme discovery</li>
+                <li><strong>Interactive Dashboard:</strong> Deploy Shiny/Streamlit app for real-time analysis</li>
+                <li><strong>Entity Recognition:</strong> Extract and network-analyze key stakeholders and organizations</li>
+                <li><strong>Comparative Framing:</strong> Analyze how different news sources frame identical AI events</li>
+            </ul>
+        </div>
+
+        <div class="cta-section">
+            <h2 style="color: white; border: none; margin-bottom: 15px;">Interested in this work?</h2>
+            <p style="font-size: 1.1em; margin-bottom: 25px;">I'm passionate about AI safety research, computational social science, and using data to understand complex systems.</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn">📁 View Full Code on GitHub</a>
+                <a href="#" class="btn">💼 Connect on LinkedIn</a>
+                <a href="#" class="btn">📧 Get in Touch</a>
+                <a href="#" class="btn">📊 Download Analysis Report</a>
+            </div>
+            
+            <p style="margin-top: 25px; font-size: 0.95em; opacity: 0.9;">
+                This project demonstrates expertise in NLP, machine learning, data visualization, and AI research methodology. Available for collaboration on AI safety, computational social science, or data science projects.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
